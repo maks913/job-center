@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{vacancies.title}">Vacancies | JobCenter</title>
+    <link th:href="@{/webjars/bootstrap/5.3.8/dist/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/bootstrap-icons/1.13.1/font/bootstrap-icons.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div th:insert="~{fragments/general::header}"></div>
+<div th:replace="~{fragments/general::confirmDelete}"></div>
+
+<main class="container py-5">
+
+    <!-- Page heading -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div class="d-flex align-items-center gap-3">
+            <div class="page-icon">
+                <i class="bi bi-briefcase-fill"></i>
+            </div>
+            <div>
+                <h2 class="fw-bold mb-1" th:text="#{vacancies.heading}">Vacancies</h2>
+                <p class="text-muted mb-0" th:text="#{vacancies.subtitle}">
+                    Manage available job positions
+                </p>
+            </div>
+        </div>
+
+        <a th:href="@{/vacancies/new}" class="btn btn-create">
+            <i class="bi bi-plus-circle-fill me-2"></i>
+            <span th:text="#{vacancies.create}">Create Vacancy</span>
+        </a>
+    </div>
+
+    <!-- Vacancy cards -->
+    <div class="row g-4">
+
+        <div class="col-12" th:each="vacancy : ${vacancies}">
+            <div class="vacancy-list-card">
+
+                <!-- Card header -->
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-3">
+                    <div>
+                        <h5 class="fw-bold mb-2" th:text="${vacancy.title}">
+                            Vacancy title
+                        </h5>
+
+                        <div class="d-flex align-items-center gap-2 text-muted">
+                            <i class="bi bi-buildings-fill"></i>
+                            <span th:text="${vacancy.company.name}">Company</span>
+                        </div>
+                    </div>
+
+                    <div class="vacancy-salary">
+                        <i class="bi bi-cash-stack me-1"></i>
+                        <span th:text="${vacancy.salary}">Salary</span>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- Card information -->
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="vacancy-type">
+                            <i class="bi bi-tag-fill me-1"></i>
+                             <span th:text="${vacancy.vacancyType.toString().replaceAll('_','-')}">
+                                Type
+                            </span>
+                        </span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-flex gap-2 flex-wrap">
+
+                        <a th:href="@{/vacancies/old/{id}(id=${vacancy.id})}"
+                           class="btn btn-edit"
+                           th:title="#{vacancies.edit}">
+                            <i class="bi bi-pencil-fill"></i>
+                        </a>
+
+                        <button type="button"
+                                class="btn btn-delete"
+                                data-bs-toggle="modal"
+                                data-bs-target="#confirmDelete"
+                                th:attr="data-bs-id=${vacancy.id},
+                                data-bs-link=@{/vacancies/delete/{id}(id=${vacancy.id})},
+                                data-bs-text=${vacancy.title}"
+                                th:title="#{vacancies.delete}">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+
+                        <a th:href="@{/vacancies/{id}(id=${vacancy.id})}"
+                           class="btn btn-primary">
+                            <i class="bi bi-eye-fill me-1"></i>
+                            <span th:text="#{vacancies.viewDetails}">View Detail</span>
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Empty state -->
+        <div class="col-12" th:if="${#lists.isEmpty(vacancies)}">
+            <div class="empty-state text-center">
+                <i class="bi bi-briefcase"></i>
+                <h5 class="fw-bold mt-3" th:text="#{vacancies.empty.title}">
+                    No vacancies found
+                </h5>
+                <p class="text-muted mb-3" th:text="#{vacancies.empty.description}">
+                    Start by creating your first vacancy.
+                </p>
+                <a th:href="@{/vacancies/new}" class="btn btn-create">
+                    <i class="bi bi-plus-circle-fill me-2"></i>
+                    <span th:text="#{vacancies.create}">Create Vacancy</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<div th:insert="~{fragments/general::footer}"></div>
+<script th:src="@{/webjars/bootstrap/5.3.8/dist/js/bootstrap.bundle.min.js}"></script>
+<script src="/js/confirm.js"></script>
+</body>
+</html>
+

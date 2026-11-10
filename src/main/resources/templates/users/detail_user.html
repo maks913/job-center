@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{user.details.title}">User Details | JobCenter</title>
+    <link th:href="@{/webjars/bootstrap/5.3.8/dist/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/bootstrap-icons/1.13.1/font/bootstrap-icons.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div th:insert="~{fragments/general::header}"></div>
+
+<main class="container py-5">
+
+    <!-- Page heading -->
+    <div class="d-flex align-items-center gap-3 mb-4">
+        <div class="page-icon">
+            <i class="bi bi-person-vcard-fill"></i>
+        </div>
+        <div>
+            <h2 class="fw-bold mb-1" th:text="#{user.details.heading}">User Profile</h2>
+            <p class="text-muted mb-0" th:text="#{user.details.subtitle}">
+                View and manage user information
+            </p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- User Information -->
+        <div class="col-lg-4">
+            <div class="detail-card h-100">
+
+                <div class="detail-card-header">
+                    <i class="bi bi-person-fill"></i>
+                    <span th:text="#{user.details.information}">User Information</span>
+                </div>
+
+                <div class="text-center py-3">
+                    <div class="profile-avatar">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+
+                    <h4 class="fw-bold mt-3 mb-1"
+                        th:text="${user.firstName + ' ' + user.lastName}">
+                    </h4>
+
+                    <span class="text-muted"
+                          th:text="${user.email}">
+                    </span>
+                </div>
+
+                <hr>
+
+                <div class="detail-item">
+                    <span><i class="bi bi-person me-2"></i><span th:text="#{user.firstName}">First Name</span></span>
+                    <strong th:text="${user.firstName}"></strong>
+                </div>
+
+                <div class="detail-item">
+                    <span><i class="bi bi-person me-2"></i><span th:text="#{user.lastName}">Last Name</span></span>
+                    <strong th:text="${user.lastName}"></strong>
+                </div>
+
+                <div class="detail-item">
+                    <span><i class="bi bi-telephone me-2"></i><span th:text="#{user.details.phone}">Phone</span></span>
+                    <strong th:text="${user.phoneNumber}"></strong>
+                </div>
+
+                <div class="detail-item">
+                    <span><i class="bi bi-envelope me-2"></i><span th:text="#{user.email}">Email</span></span>
+                    <strong th:text="${user.email}"></strong>
+                </div>
+
+                <div class="detail-item">
+                    <span><i class="bi bi-calendar3 me-2"></i><span th:text="#{user.birthDate}">Birth Date</span></span>
+                    <strong th:text="${user.birthDate}"></strong>
+                </div>
+
+                <hr>
+
+                <h6 class="fw-bold mb-3">
+                    <i class="bi bi-shield-check me-2"></i>
+                    <span th:text="#{user.details.roles}">User Roles</span>
+                </h6>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <span th:each="role : ${user.roles}"
+                          class="badge bg-primary-subtle text-primary p-2"
+                          th:text="${role.name}">
+                    </span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Right column -->
+        <div class="col-lg-8">
+
+            <!-- SEEKER SECTION -->
+            <div th:if="${!user.roles[0].name.toString().equalsIgnoreCase('employer')}">
+
+                <!-- Resume -->
+                <div class="detail-card mb-4">
+
+                    <div class="detail-card-header">
+                        <i class="bi bi-file-earmark-person-fill"></i>
+                        <span th:text="#{user.details.resume}">Resume</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                        <div>
+                            <h5 class="fw-semibold mb-1" th:text="#{user.details.userResume}">
+                                User Resume
+                            </h5>
+                            <p class="text-muted mb-0" th:text="#{user.details.resume.description}">
+                                Manage the user's professional resume
+                            </p>
+                        </div>
+
+                        <button th:if="${user.resume == null}"
+                                class="btn btn-create"
+                                data-bs-toggle="modal"
+                                data-bs-target="#createResumeModal">
+                            <i class="bi bi-plus-circle-fill me-2"></i>
+                            <span th:text="#{user.details.addResume}">Add Resume</span>
+                        </button>
+
+                        <a th:if="${user.resume != null}"
+                           th:href="@{/resume/{id}(id=${user.resume.id})}"
+                           class="btn btn-details-link">
+                            <i class="bi bi-eye-fill me-2"></i>
+                            <span th:text="#{user.details.viewResume}">View Resume</span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <!-- Saved Vacancies -->
+                <div class="detail-card mb-4">
+
+                    <div class="detail-card-header">
+                        <i class="bi bi-bookmark-star-fill"></i>
+                        <span th:text="#{user.details.savedVacancies}">Saved Vacancies</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <div>
+                            <h5 class="fw-semibold mb-1" th:text="#{user.details.savedJobs}">
+                                Saved Jobs
+                            </h5>
+                            <p class="text-muted mb-0" th:text="#{user.details.savedJobs.description}">
+                                Vacancies saved by this user
+                            </p>
+                        </div>
+
+                        <button class="btn btn-create"
+                                data-bs-toggle="modal"
+                                data-bs-target="#saveVacanciesModal">
+                            <i class="bi bi-bookmark-plus-fill me-2"></i>
+                            <span th:text="#{user.details.manageSavedVacancies}">Manage Saved Vacancies</span>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Applications -->
+                <div class="detail-card">
+
+                    <div class="detail-card-header">
+                        <i class="bi bi-send-fill"></i>
+                        <span th:text="#{user.details.applications}">Sent Applications</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <div>
+                            <h5 class="fw-semibold mb-1" th:text="#{user.details.jobApplications}">
+                                Job Applications
+                            </h5>
+                            <p class="text-muted mb-0" th:text="#{user.details.applications.description}">
+                                Vacancies applied for by this user
+                            </p>
+                        </div>
+
+                        <button class="btn btn-create"
+                                data-bs-toggle="modal"
+                                data-bs-target="#sentApplicationsModal">
+                            <i class="bi bi-send me-2"></i>
+                            <span th:text="#{user.details.manageApplications}">Manage Applications</span>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- EMPLOYER SECTION -->
+            <div th:if="${user.roles[0].name.toString().equalsIgnoreCase('employer')}">
+
+                <div class="detail-card">
+
+                    <div class="detail-card-header">
+                        <i class="bi bi-buildings-fill"></i>
+                        <span th:text="#{user.details.companies}">User Companies</span>
+                    </div>
+
+                    <div th:if="${#lists.isEmpty(user.companies)}"
+                         class="text-center text-muted py-4">
+                        <i class="bi bi-building fs-1"></i>
+                        <p class="mt-2 mb-0" th:text="#{user.details.noCompanies}">
+                            No companies found
+                        </p>
+                    </div>
+
+                    <div class="company-detail-card mb-3"
+                         th:each="company : ${user.companies}">
+
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+                            <h5 class="fw-bold mb-0"
+                                th:text="${company.name}">
+                            </h5>
+
+                            <span class="badge bg-primary-subtle text-primary">
+                                <span th:text="#{companies.id}">ID:</span>
+                                <span th:text="${company.id}"></span>
+                            </span>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <span>
+                                        <i class="bi bi-people me-2"></i>
+                                        <span th:text="#{companies.employees}">Employees</span>
+                                    </span>
+                                    <strong th:text="${company.quantityEmployees}"></strong>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <span>
+                                        <i class="bi bi-calendar3 me-2"></i>
+                                        <span th:text="#{user.details.createdAt}">Created At</span>
+                                    </span>
+                                    <strong th:text="${company.createdAt}"></strong>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="mt-3">
+                            <a th:href="@{/companies/{id}(id=${company.id})}"
+                               class="btn btn-details-link">
+                                <i class="bi bi-eye-fill me-2"></i>
+                                <span th:text="#{user.details.viewCompany}">View Company</span>
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Back button -->
+    <div class="mt-4">
+        <a th:href="@{/users}" class="btn btn-cancel">
+            <i class="bi bi-arrow-left me-2"></i>
+            <span th:text="#{user.details.backToUsers}">Back to Users</span>
+        </a>
+    </div>
+
+</main>
+
+
+<!-- CREATE RESUME MODAL -->
+<div class="modal fade" id="createResumeModal" tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal">
+
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">
+                    <i class="bi bi-file-earmark-plus me-2"></i>
+                    <span th:text="#{user.details.createResume}">Create Resume</span>
+                </h5>
+                <button type="button" class="btn-close"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <form th:action="@{/resume}"
+                  th:object="${resume}" method="post">
+
+                <div class="modal-body">
+
+                    <input type="hidden" name="user_id"
+                           th:value="${user.id}"/>
+
+                    <div class="mb-3">
+                        <label for="desiredSalary" class="form-label fw-semibold">
+                            <i class="bi bi-cash me-2"></i>
+                            <span th:text="#{resume.desiredSalary}">Desired Salary</span>
+                        </label>
+                        <input type="text" id="desiredSalary"
+                               class="form-control custom-input"
+                               th:field="*{desired_salary}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="desiredPosition" class="form-label fw-semibold">
+                            <i class="bi bi-briefcase me-2"></i>
+                            <span th:text="#{resume.desiredPosition}">Desired Position</span>
+                        </label>
+                        <input type="text" id="desiredPosition"
+                               class="form-control custom-input"
+                               th:field="*{desired_position}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label fw-semibold">
+                            <i class="bi bi-card-text me-2"></i>
+                            <span th:text="#{vacancy.description}">Description</span>
+                        </label>
+                        <textarea id="description"
+                                  class="form-control custom-input"
+                                  th:field="*{description}"
+                                  rows="4" required></textarea>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancel"
+                            data-bs-dismiss="modal">
+                        <span th:text="#{common.cancel}">Cancel</span>
+                    </button>
+
+                    <button type="submit" class="btn btn-create">
+                        <i class="bi bi-plus-circle me-2"></i>
+                        <span th:text="#{user.details.createResume}">Create Resume</span>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- SAVE VACANCIES MODAL -->
+<div class="modal fade" id="saveVacanciesModal"
+     data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content custom-modal">
+
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">
+                    <i class="bi bi-bookmark-star-fill me-2"></i>
+                    <span th:text="#{user.details.savedVacancies}">Saved Vacancies</span>
+                </h5>
+
+                <button type="button" class="btn-close"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="vacancy-detail-card mb-3"
+                     th:each="vacancy : ${vacancies}">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="fw-bold mb-0"
+                            th:text="${vacancy.title}"></h6>
+
+                        <span class="badge bg-secondary-subtle text-secondary"
+                              th:text="'ID: ' + ${vacancy.id}"></span>
+                    </div>
+
+                    <p class="text-muted mt-2 mb-3"
+                       th:text="${vacancy.description}"></p>
+
+                    <div class="d-flex flex-wrap gap-3 vacancy-meta">
+                        <span>
+                            <i class="bi bi-cash me-1"></i>
+                            <span th:text="${vacancy.salary}"></span>
+                        </span>
+
+                        <span>
+                            <i class="bi bi-geo-alt me-1"></i>
+                            <span th:text="${vacancy.city}"></span>
+                        </span>
+
+                        <span>
+                            <i class="bi bi-building me-1"></i>
+                            <span th:text="${vacancy.company.name}"></span>
+                        </span>
+                    </div>
+
+                    <div class="text-end mt-3">
+                        <form class="saveVacancy">
+                            <input type="hidden" name="vacancy_id" th:value="${vacancy.id}">
+                            <input type="hidden" name="user_id" th:value="${user.id}">
+
+                            <button type="submit" class="btn btn-details-link">
+                                <i class="bi bi-bookmark-star-fill"
+                                   th:if="${user.savedVacancies.contains(vacancy)}"></i>
+
+                                <i class="bi bi-bookmark-star"
+                                   th:if="${!user.savedVacancies.contains(vacancy)}"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-cancel" data-bs-dismiss="modal">
+                    <i class="bi bi-x-lg me-2"></i>
+                    <span th:text="#{common.close}">Close</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- SENT APPLICATIONS MODAL -->
+<div class="modal fade" id="sentApplicationsModal"
+     data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content custom-modal">
+
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">
+                    <i class="bi bi-send-fill me-2"></i>
+                    <span th:text="#{user.details.applications}">Sent Applications</span>
+                </h5>
+
+                <button type="button" class="btn-close"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="vacancy-detail-card mb-3"
+                     th:each="vacancy : ${vacancies}">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="fw-bold mb-0"
+                            th:text="${vacancy.title}"></h6>
+
+                        <span class="badge bg-secondary-subtle text-secondary"
+                              th:text="'ID: ' + ${vacancy.id}"></span>
+                    </div>
+
+                    <p class="text-muted mt-2 mb-3"
+                       th:text="${vacancy.description}"></p>
+
+                    <div class="d-flex flex-wrap gap-3 vacancy-meta">
+                        <span>
+                            <i class="bi bi-cash me-1"></i>
+                            <span th:text="${vacancy.salary}"></span>
+                        </span>
+
+                        <span>
+                            <i class="bi bi-geo-alt me-1"></i>
+                            <span th:text="${vacancy.city}"></span>
+                        </span>
+
+                        <span>
+                            <i class="bi bi-building me-1"></i>
+                            <span th:text="${vacancy.company.name}"></span>
+                        </span>
+                    </div>
+
+                    <div class="text-end mt-3">
+                        <form class="sentApplication">
+                            <input type="hidden" name="vacancy_id"
+                                   th:value="${vacancy.id}">
+                            <input type="hidden" name="user_id"
+                                   th:value="${user.id}">
+
+                            <button type="submit" class="btn btn-details-link">
+
+                                <i class="bi bi-send-check-fill"
+                                   th:if="${user.appVacancies.contains(vacancy)}"></i>
+
+                                <i class="bi bi-send"
+                                   th:if="${!user.appVacancies.contains(vacancy)}"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-cancel" data-bs-dismiss="modal">
+                    <i class="bi bi-x-lg me-2"></i>
+                    <span th:text="#{common.close}">Close</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:insert="~{fragments/general::footer}"></div>
+<script th:src="@{/webjars/bootstrap/5.3.8/dist/js/bootstrap.bundle.min.js}"></script>
+<script src="/js/confirm.js"></script>
+<script src="/js/vacancies.js"></script>
+</body>
+</html>

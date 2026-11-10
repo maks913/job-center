@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>General</title>
+</head>
+<body>
+
+<div th:fragment="header">
+    <header class="text-white shadow-sm" style="background-color: #1E293B;">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center py-3 flex-wrap gap-3">
+
+                <!-- Logo -->
+                <a th:href="@{/}"
+                   class="d-flex align-items-center gap-3 text-white text-decoration-none">
+                    <i class="bi bi-briefcase-fill fs-1"></i>
+                    <span class="fs-2 fw-bold">JobCenter</span>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="d-flex align-items-center gap-2 gap-lg-3 flex-wrap">
+
+                    <a th:href="@{/dashboard}" class="header-link"
+                       th:classappend="${currentPage == 'dashboard' ? ' active' : ''}">
+                        <i class="bi bi-house-door-fill"></i>
+                        <span th:text="#{header.dashboard}">Dashboard</span>
+                    </a>
+
+                    <a th:href="@{/users}" class="header-link"
+                       th:classappend="${currentPage == 'users' ? ' active' : ''}">
+                        <i class="bi bi-people-fill"></i>
+                        <span th:text="#{header.users}">Users</span>
+                    </a>
+
+                    <a th:href="@{/vacancies}" class="header-link"
+                       th:classappend="${currentPage == 'vacancies' ? ' active' : ''}">
+                        <i class="bi bi-briefcase-fill"></i>
+                        <span th:text="#{header.vacancies}">Vacancies</span>
+                    </a>
+
+                    <a th:href="@{/companies}" class="header-link"
+                       th:classappend="${currentPage == 'companies' ? ' active' : ''}">
+                        <i class="bi bi-buildings-fill"></i>
+                        <span th:text="#{header.companies}">Companies</span>
+                    </a>
+
+                    <a th:href="@{/about}" class="header-link"
+                       th:classappend="${currentPage == 'about' ? ' active' : ''}">
+                        <i class="bi bi-info-circle-fill"></i>
+                        <span th:text="#{header.about}">About</span>
+                    </a>
+
+                </nav>
+            </div>
+        </div>
+    </header>
+</div>
+
+<div th:fragment="confirmDelete">
+    <div class="modal fade" id="confirmDelete" tabindex="-1" aria-labelledby="staticWarningLabel" aria-hidden="true"
+         data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title text-danger fs-4" id="staticWarningLabel"
+                        th:text="#{modal.warning}">Warning</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <span th:text="#{modal.delete.message}">Are you sure you want to delete</span>
+                    <span id="modal-text" class="modal-text text-danger"></span>?
+                    <br/>
+                    <span th:text="#{modal.delete.irreversible}">
+                    If you click Delete, this cannot be undone!
+                    </span>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            th:text="#{modal.cancel}">Cancel
+                    </button>
+                    <a th:method="delete" class="btn btn-danger delete-button"
+                       th:text="#{modal.delete}">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="footer">
+    <footer class="text-white shadow-sm mt-auto" style="background-color: #1E293B;">
+        <div class="container py-4">
+            <div class="row g-4 align-items-center">
+
+                <!-- Left: Logo & Description -->
+                <div class="col-lg-5 col-md-6">
+                    <a th:href="@{/}" class="d-flex align-items-center gap-3 text-white text-decoration-none mb-2">
+                        <i class="bi bi-briefcase-fill fs-3"></i>
+                        <span class="fs-4 fw-bold">JobCenter</span>
+                    </a>
+                    <p class="text-white-50 mb-0 small"
+                       th:text="#{footer.description}">
+                        Your reliable platform for finding dream jobs...
+                    </p>
+                </div>
+
+                <!-- Middle: Quick Links -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-3 text-uppercase small tracking-wide"
+                        th:text="#{footer.quickLinks}">Quick Links</h6>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a th:href="@{/}" class="text-white-50 text-decoration-none small hover-white"
+                           th:text="#{footer.home}">Home</a>
+                        <a th:href="@{/users}" class="text-white-50 text-decoration-none small hover-white"
+                           th:text="#{header.users}">Users</a>
+                        <a th:href="@{/vacancies}" class="text-white-50 text-decoration-none small hover-white"
+                           th:text="#{header.vacancies}">Vacancies</a>
+                        <a th:href="@{/companies}" class="text-white-50 text-decoration-none small hover-white"
+                           th:text="#{header.companies}">Companies</a>
+                        <a th:href="@{/about}" class="text-white-50 text-decoration-none small hover-white"
+                           th:text="#{header.about}">About</a>
+                    </div>
+                </div>
+
+                <!-- Right: Social / Contact Icons -->
+                <div class="col-lg-2 col-md-12 text-lg-end">
+                    <h6 class="fw-bold mb-3 text-uppercase small tracking-wide"
+                        th:text="#{footer.connect}">Connect With Me</h6>
+                    <div class="d-flex gap-3 justify-content-lg-end">
+                        <a href="#" class="text-white-50 fs-5 text-decoration-none hover-white"><i
+                                class="bi bi-github"></i></a>
+                        <a href="#" class="text-white-50 fs-5 text-decoration-none hover-white"><i
+                                class="bi bi-linkedin"></i></a>
+                        <a href="#" class="text-white-50 fs-5 text-decoration-none hover-white"><i
+                                class="bi bi-telegram"></i></a>
+                        <a href="#" class="text-white-50 fs-5 text-decoration-none hover-white"><i
+                                class="bi bi-envelope-fill"></i></a>
+                    </div>
+                </div>
+
+                <!-- Changing Language -->
+                <div class="col-lg-2 col-md-12 text-lg-end">
+                    <h6 class="fw-bold mb-3 text-uppercase small tracking-wide"
+                        th:text="#{footer.changeLanguage}">Change Language</h6>
+
+                    <div class="d-flex gap-3 justify-content-lg-end">
+                        <a th:href="@{''(lang='uk')}"
+                           class="text-white-50 fs-5 text-decoration-none hover-white"
+                           th:title="#{language.uk}">
+                            <i class="bi bi-translate"></i> UK
+                        </a>
+
+                        |
+
+                        <a th:href="@{''(lang='en')}"
+                           class="text-white-50 fs-5 text-decoration-none hover-white"
+                           th:title="#{language.en}">
+                            <i class="bi bi-translate"></i> EN
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr class="border-secondary my-3 opacity-25">
+
+            <!-- Bottom Copyright -->
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 small text-white-50">
+                <p class="mb-0">
+                    &copy; 2026 JobCenter.
+                    <span th:text="#{footer.copyright}">All rights reserved.</span>
+                </p>
+
+                <p class="mb-0" th:text="#{footer.designed}">
+                    Designed with Bootstrap 5
+                </p>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

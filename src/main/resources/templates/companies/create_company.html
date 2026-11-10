@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{company.create.title}">Create Company</title>
+    <link th:href="@{/webjars/bootstrap/5.3.8/dist/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/bootstrap-icons/1.13.1/font/bootstrap-icons.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div th:insert="~{fragments/general::header}"></div>
+
+<main class="container py-5" style="min-height: 70vh">
+
+    <!-- Page heading -->
+    <div class="d-flex align-items-center gap-3 mb-4">
+        <div class="page-icon">
+            <i class="bi bi-briefcase-fill"></i>
+        </div>
+        <div>
+            <h2 class="fw-bold mb-1" th:text="#{company.create.heading}">Create Company</h2>
+            <p class="text-muted mb-0" th:text="#{company.create.subtitle}">
+                Add a new company to JobCenter
+            </p>
+        </div>
+    </div>
+
+    <div class="content-card">
+        <form th:action="@{/companies/save}" th:object="${company}" method="post">
+            <div class="row g-4">
+
+                <!-- Name -->
+                <div class="col-md-6">
+                    <label for="nameCompany" class="form-label fw-semibold">
+                        <i class="bi bi-building me-2 text-primary"></i>
+                        <span th:text="#{company.name}">Name</span>
+                    </label>
+                    <input type="text"
+                           class="form-control custom-input"
+                           id="nameCompany"
+                           th:placeholder="#{company.name.placeholder}"
+                           th:field="*{name}" required>
+                </div>
+
+                <!-- Quantity Employees -->
+                <div class="col-md-6">
+                    <label for="quantityEmployees" class="form-label fw-semibold">
+                        <i class="bi bi-people-fill me-2 text-primary"></i>
+                        <span th:text="#{company.quantityEmployees}">Quantity Employees</span>
+                    </label>
+                    <input type="number"
+                           class="form-control custom-input"
+                           id="quantityEmployees"
+                           th:placeholder="#{company.quantityEmployees.placeholder}"
+                           min="1"
+                           th:field="*{quantityEmployees}" required>
+                </div>
+
+                <!-- User -->
+                <div class="col-md-6">
+                    <label for="user" class="form-label fw-semibold">
+                        <i class="bi bi-person-fill me-2 text-primary"></i>
+                        <span th:text="#{company.user}">User</span>
+                    </label>
+                    <select id="user"
+                            th:field="*{user}"
+                            class="form-select custom-input" required>
+                        <option value="" disabled th:text="#{company.user.select}">Select user</option>
+                        <option th:each="user : ${users}"
+                                th:value="${user.id}"
+                                th:text="${user.firstName + ' ' + user.lastName}">
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Actions -->
+                <hr class="my-4">
+                <div class="d-flex justify-content-end gap-2 flex-wrap">
+                    <a th:href="@{/companies}" class="btn btn-cancel">
+                        <i class="bi bi-x-circle me-2"></i>
+                        <span th:text="#{common.cancel}">Cancel</span>
+                    </a>
+                    <button class="btn btn-create">
+                        <i class="bi bi-plus-circle-fill me-2"></i>
+                        <span th:text="#{company.create.button}">Create Company</span>
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</main>
+<div th:insert="~{fragments/general::footer}"></div>
+</body>
+</html>

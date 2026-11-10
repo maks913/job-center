@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{users.title}">Users | JobCenter</title>
+    <link th:href="@{/webjars/bootstrap/5.3.8/dist/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/bootstrap-icons/1.13.1/font/bootstrap-icons.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div th:insert="~{fragments/general::header}"></div>
+<div th:replace="~{fragments/general::confirmDelete}"></div>
+
+<main class="container py-5">
+
+    <div class="content-card">
+
+        <!-- Page Header -->
+        <div class="d-flex align-items-center gap-4 mb-4 pb-3 border-bottom">
+
+            <div class="page-icon">
+                <i class="bi bi-people-fill"></i>
+            </div>
+
+            <div>
+                <h2 class="fw-bold mb-1" th:text="#{users.heading}">Users</h2>
+                <p class="text-muted mb-0" th:text="#{users.subtitle}">
+                    Manage system users
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Users Table -->
+        <div class="table-responsive" style="max-height: 45vh">
+
+            <table class="table table-hover align-middle users-table">
+
+                <thead>
+                    <tr>
+                        <th>
+                            <i class="bi bi-person-fill me-2"></i>
+                            <span th:text="#{users.firstName}">First Name</span>
+                        </th>
+
+                        <th th:text="#{users.lastName}">Last Name</th>
+
+                        <th>
+                            <i class="bi bi-envelope-fill me-2"></i>
+                            <span th:text="#{users.email}">Email</span>
+                        </th>
+
+                        <th th:text="#{users.role}">
+                            Role
+                        </th>
+
+                        <th>
+                            <i class="bi bi-telephone-fill me-2"></i>
+                            <span th:text="#{users.phoneNumber}">Phone Number</span>
+                        </th>
+
+                        <th>
+                            <i class="bi bi-calendar3 me-2"></i>
+                            <span th:text="#{users.birthDate}">Birth Date</span>
+                        </th>
+
+                        <th>
+                            <i class="bi bi-clock-history me-2"></i>
+                            <span th:text="#{users.createdAt}">Created At</span>
+                        </th>
+
+                        <th colspan="3" class="text-center">
+                            <i class="bi bi-gear-fill me-2"></i>
+                            <span th:text="#{users.actions}">Actions</span>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="user : ${users}">
+
+                    <td class="fw-semibold"
+                        th:text="${user.firstName}"></td>
+
+                    <td th:text="${user.lastName}"></td>
+
+                    <td th:text="${user.email}" class="text-truncate" style="max-width: 150px;"></td>
+
+                    <td>
+                        <span th:each="role : ${user.roles}"
+                              class="badge bg-primary-subtle text-primary me-1 "
+                              th:text="${role.name}">
+                        </span>
+                    </td>
+
+                    <td th:text="${user.phoneNumber}"></td>
+
+                    <td th:text="${user.birthDate}"></td>
+
+                    <td class="text-nowrap"
+                        th:text="${#temporals.format(user.createdAt,'dd-MM-yyyy HH:mm')}">
+                    </td>
+
+                    <td>
+                        <!-- Edit -->
+
+                        <a th:href="@{/users/old/{id}(id=${user.id})}"
+                           class="btn btn-edit"
+                           th:title="#{users.edit}">
+                            <i class="bi bi-pencil-fill"></i>
+                        </a>
+
+                        <!-- Delete -->
+
+                        <button type="button"
+                                class="btn btn-delete"
+                                data-bs-toggle="modal"
+                                data-bs-target="#confirmDelete"
+                                th:title="#{users.delete}"
+                                th:attr="
+                                    data-bs-link=@{/users/delete/{id}(id=${user.id})},
+                                    data-bs-text=${user.firstName},
+                                    data-bs-id=${user.id}">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+
+
+                        <!-- Details -->
+
+                        <a th:href="@{/users/{id}(id=${user.id})}"
+                           class="btn btn-details"
+                           th:title="#{users.details}">
+                            <i class="bi bi-person-fill"></i>
+                        </a>
+                    </td>
+
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+        <!-- Create User -->
+        <div class="mt-4">
+            <a th:href="@{/users/new}" class="btn btn-create">
+                <i class="bi bi-plus-circle-fill me-2"></i>
+                <span th:text="#{users.create}">Create User</span>
+            </a>
+        </div>
+
+    </div>
+
+</main>
+
+<div th:insert="~{fragments/general::footer}"></div>
+<script src="/js/confirm.js"></script>
+<script th:src="@{/webjars/bootstrap/5.3.8/dist/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

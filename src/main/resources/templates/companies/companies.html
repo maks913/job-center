@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{companies.title}">Companies | JobCenter</title>
+    <link th:href="@{/webjars/bootstrap/5.3.8/dist/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/bootstrap-icons/1.13.1/font/bootstrap-icons.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div th:insert="~{fragments/general::header}"></div>
+<div th:replace="~{fragments/general::confirmDelete}"></div>
+
+<main class="container py-5" style="min-height: 70vh">
+
+    <!-- Page heading -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div class="d-flex align-items-center gap-3">
+            <div class="page-icon">
+                <i class="bi bi-buildings-fill"></i>
+            </div>
+            <div>
+                <h2 class="fw-bold mb-1" th:text="#{companies.heading}">Companies</h2>
+                <p class="text-muted mb-0" th:text="#{companies.subtitle}">
+                    Manage registered companies
+                </p>
+            </div>
+        </div>
+
+        <a th:href="@{/companies/new}" class="btn btn-create">
+            <i class="bi bi-plus-circle-fill me-2"></i>
+            <span th:text="#{companies.create}">Create Company</span>
+        </a>
+    </div>
+
+    <!-- Companies -->
+    <div class="row g-4">
+
+        <div th:each="company : ${companies}"
+             class="col-xl-4 col-md-6 col-12">
+
+            <div class="company-list-card h-100">
+
+                <!-- Company header -->
+                <div class="d-flex align-items-start gap-3 mb-3">
+                    <div class="company-icon">
+                        <i class="bi bi-building"></i>
+                    </div>
+
+                    <div class="flex-grow-1">
+                        <h5 class="fw-bold mb-1" th:text="${company.name}">
+                            Company name
+                        </h5>
+                        <span class="company-id">
+                            <span th:text="#{companies.id}">ID:</span>
+                            <span th:text="${company.id}"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Company information -->
+                <div class="company-info-list">
+
+                    <div class="company-info-item">
+                        <i class="bi bi-people-fill"></i>
+                        <div>
+                            <span class="info-label" th:text="#{companies.employees}">
+                                Employees
+                            </span>
+                            <span class="info-value"
+                                  th:text="${company.quantityEmployees}">
+                                0
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="company-info-item">
+                        <i class="bi bi-person-fill"></i>
+                        <div>
+                            <span class="info-label" th:text="#{companies.owner}">
+                                Owner
+                            </span>
+                            <span class="info-value"
+                                  th:text="${company.user.firstName + ' ' + company.user.lastName}">
+                                Owner name
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Actions -->
+                <div class="company-actions mt-4">
+
+                    <a th:href="@{/companies/{id}(id=${company.id})}"
+                       class="btn btn-details flex-grow-1"
+                       th:title="#{companies.view}">
+                        <i class="bi bi-eye-fill me-1"></i>
+                        <span th:text="#{companies.view}">View</span>
+                    </a>
+
+                    <a th:href="@{/companies/old/{id}(id=${company.id})}"
+                       class="btn btn-edit"
+                       th:title="#{companies.update}">
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
+
+                    <button type="button"
+                            class="btn btn-delete"
+                            data-bs-toggle="modal"
+                            data-bs-target="#confirmDelete"
+                            th:attr="data-bs-link=@{/companies/delete/{id}(id=${company.id})},
+                            data-bs-text=${company.name},
+                            data-bs-id=${company.id}"
+                            th:title="#{companies.delete}">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Empty state -->
+        <div class="col-12" th:if="${#lists.isEmpty(companies)}">
+            <div class="empty-state text-center">
+                <i class="bi bi-buildings"></i>
+                <h5 class="fw-bold mt-3" th:text="#{companies.empty.title}">
+                    No companies found
+                </h5>
+                <p class="text-muted mb-3" th:text="#{companies.empty.description}">
+                    Start by adding your first company.
+                </p>
+                <a th:href="@{/companies/new}" class="btn btn-create">
+                    <i class="bi bi-plus-circle-fill me-2"></i>
+                    <span th:text="#{companies.create}">Create Company</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<div th:insert="~{fragments/general::footer}"></div>
+<script th:src="@{/webjars/bootstrap/5.3.8/dist/js/bootstrap.bundle.min.js}"></script>
+<script src="/js/confirm.js"></script>
+</body>
+</html>
+

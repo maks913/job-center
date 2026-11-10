@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{about.title}">About</title>
+
+    <link th:href="@{/webjars/bootstrap/5.3.8/dist/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/bootstrap-icons/1.13.1/font/bootstrap-icons.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div th:insert="~{fragments/general::header}"></div>
+
+<main class="container py-5">
+
+    <div class="text-center mb-5">
+        <div class="page-icon mx-auto mb-3">
+            <i class="bi bi-info-circle-fill"></i>
+        </div>
+
+        <h1 class="fw-bold" th:text="#{about.title}">About JobCenter</h1>
+        <p class="text-muted fs-5" th:text="#{about.subtitle}">
+            A web application for job seekers and employers
+        </p>
+    </div>
+
+    <div class="content-card mb-4">
+        <h4 class="fw-bold mb-3">
+            <i class="bi bi-journal-text text-primary me-2"></i>
+            <span th:text="#{about.project.title}">About the Project</span>
+        </h4>
+
+        <p class="text-muted mb-0" th:text="#{about.project.description}"></p>
+
+        <p class="text-muted mt-3 mb-0">
+            <span th:text="#{about.project.coursework}"></span>
+        </p>
+    </div>
+
+    <div class="content-card mb-4">
+        <h4 class="fw-bold mb-4">
+            <i class="bi bi-person-fill text-primary me-2"></i>
+            <span th:text="#{about.author.title}">Author Information</span>
+        </h4>
+
+        <div class="row g-4">
+
+            <div class="col-md-6">
+                <div class="d-flex align-items-center gap-3">
+                    <i class="bi bi-person-badge fs-3 text-primary"></i>
+                    <div>
+                        <div class="text-muted small" th:text="#{about.author.student}">Student</div>
+                        <div class="fw-semibold">Maksym Balynskyi</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="d-flex align-items-center gap-3">
+                    <i class="bi bi-mortarboard-fill fs-3 text-primary"></i>
+                    <div>
+                        <div class="text-muted small" th:text="#{about.author.group}">Academic Group</div>
+                        <div class="fw-semibold">4144</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="d-flex align-items-center gap-3">
+                    <i class="bi bi-book-fill fs-3 text-primary"></i>
+                    <div>
+                        <div class="text-muted small" th:text="#{about.author.discipline}">Discipline</div>
+                        <div class="fw-semibold">Web Technologies</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="d-flex align-items-center gap-3">
+                    <i class="bi bi-file-earmark-text-fill fs-3 text-primary"></i>
+                    <div>
+                        <div class="text-muted small" th:text="#{about.author.projectType}">Project Type</div>
+                        <div class="fw-semibold" th:text="#{about.author.coursework}">Coursework Project</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="content-card mb-4">
+        <h4 class="fw-bold mb-4">
+            <i class="bi bi-code-slash text-primary me-2"></i>
+            <span th:text="#{about.stack.title}">Technology Stack</span>
+        </h4>
+
+        <div class="row g-4">
+
+            <div class="col-md-6">
+                <div class="d-flex gap-3">
+                    <i class="bi bi-server fs-3 text-primary"></i>
+                    <div>
+                        <h6 class="fw-bold mb-1" th:text="#{about.stack.backend}">Backend</h6>
+                        <p class="text-muted mb-0" th:text="#{about.stack.backend.technologies}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="d-flex gap-3">
+                    <i class="bi bi-window fs-3 text-primary"></i>
+                    <div>
+                        <h6 class="fw-bold mb-1" th:text="#{about.stack.frontend}">Frontend</h6>
+                        <p class="text-muted mb-0" th:text="#{about.stack.frontend.technologies}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="d-flex gap-3">
+                    <i class="bi bi-database-fill fs-3 text-primary"></i>
+                    <div>
+                        <h6 class="fw-bold mb-1" th:text="#{about.stack.database}">Database</h6>
+                        <p class="text-muted mb-0" th:text="#{about.stack.database.technologies}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="d-flex gap-3">
+                    <i class="bi bi-tools fs-3 text-primary"></i>
+                    <div>
+                        <h6 class="fw-bold mb-1" th:text="#{about.stack.tools}">Development Tools</h6>
+                        <p class="text-muted mb-0" th:text="#{about.stack.tools.technologies}"></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+<div th:insert="~{fragments/general::footer}"></div>
+
+<script th:src="@{/webjars/bootstrap/5.3.8/dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

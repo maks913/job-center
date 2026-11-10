@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title th:text="#{company.details.title}">Company Details | JobCenter</title>
+
+    <link th:href="@{/webjars/bootstrap/5.3.8/dist/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/bootstrap-icons/1.13.1/font/bootstrap-icons.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div th:insert="~{fragments/general::header}"></div>
+
+<main class="container py-5">
+
+    <!-- Page heading -->
+    <div class="d-flex align-items-center gap-3 mb-4">
+        <div class="page-icon">
+            <i class="bi bi-buildings-fill"></i>
+        </div>
+        <div>
+            <h2 class="fw-bold mb-1" th:text="#{company.details.heading}">Company Profile</h2>
+            <p class="text-muted mb-0" th:text="#{company.details.subtitle}">
+                View and manage company details and vacancies
+            </p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Left Column: Company Details -->
+        <div class="col-lg-4">
+            <div class="detail-card h-100">
+
+                <div class="detail-card-header">
+                    <i class="bi bi-building"></i>
+                    <span th:text="#{company.details.information}">Company Details</span>
+                </div>
+
+                <div class="text-center py-3">
+                    <div class="profile-avatar">
+                        <i class="bi bi-building-fill"></i>
+                    </div>
+
+                    <h4 class="fw-bold mt-3 mb-1" th:text="${company.name}">
+                        Company Name
+                    </h4>
+
+                    <span class="badge bg-primary-subtle text-primary">
+                        <span th:text="#{companies.id}">ID:</span>
+                        <span th:text="${company.id}">1</span>
+                    </span>
+                </div>
+
+                <hr>
+
+                <div class="detail-item">
+                    <span>
+                        <i class="bi bi-people me-2"></i>
+                        <span th:text="#{companies.employees}">Employees</span>
+                    </span>
+                    <strong th:text="${company.quantityEmployees}">0</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>
+                        <i class="bi bi-calendar3 me-2"></i>
+                        <span th:text="#{company.details.createdAt}">Created At</span>
+                    </span>
+                    <strong th:text="${company.createdAt}">2026-01-01</strong>
+                </div>
+
+                <div class="detail-item" th:if="${company.user != null}">
+                    <span>
+                        <i class="bi bi-person me-2"></i>
+                        <span th:text="#{companies.owner}">Owner</span>
+                    </span>
+                    <strong>
+                        <a th:href="@{/users/{id}(id=${company.user.id})}"
+                           class="text-decoration-none text-primary"
+                           th:text="${company.user.firstName + ' ' + company.user.lastName}">
+                            Owner Name
+                        </a>
+                    </strong>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Right Column: Vacancies List -->
+        <div class="col-lg-8">
+
+            <div class="detail-card overflow-auto"  style="max-height: 60vh">
+
+                <div class="detail-card-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="bi bi-briefcase-fill me-2"></i>
+                        <span th:text="#{company.details.vacancies}">Company Vacancies</span>
+                    </div>
+                </div>
+
+                <div th:if="${#lists.isEmpty(company.vacancies)}" class="text-center text-muted py-4">
+                    <i class="bi bi-folder-x fs-1"></i>
+                    <p class="mt-2 mb-0" th:text="#{company.details.vacancies.empty}">
+                        No vacancies available for this company
+                    </p>
+                </div>
+
+                <div class="vacancy-detail-card mb-3" th:each="vacancy : ${company.vacancies}">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold mb-0" th:text="${vacancy.title}">Job Title</h5>
+                        <span class="badge bg-secondary-subtle text-secondary"
+                              th:text="${vacancy.vacancyType}">Full Time</span>
+                    </div>
+
+                    <hr class="my-2">
+
+                    <div class="d-flex flex-wrap gap-4 vacancy-meta mt-3">
+                        <span>
+                            <i class="bi bi-cash me-1"></i>
+                            <strong th:text="${vacancy.salary}">Salary</strong>
+                        </span>
+
+                        <span>
+                            <i class="bi bi-geo-alt me-1"></i>
+                            <span th:text="${vacancy.city}">City</span>
+                        </span>
+                    </div>
+
+                    <div class="mt-3 text-end">
+                        <a th:href="@{/vacancies/{id}(id=${vacancy.id})}" class="btn btn-details-link">
+                            <i class="bi bi-eye-fill me-2"></i>
+                            <span th:text="#{vacancies.viewDetails}">View Vacancy</span>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Back button -->
+    <div class="mt-4">
+        <a th:href="@{/companies}" class="btn btn-cancel">
+            <i class="bi bi-arrow-left me-2"></i>
+            <span th:text="#{company.details.back}">Back to Companies</span>
+        </a>
+    </div>
+
+</main>
+
+<div th:insert="~{fragments/general::footer}"></div>
+<script th:src="@{/webjars/bootstrap/5.3.8/dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

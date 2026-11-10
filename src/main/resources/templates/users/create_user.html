@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title th:text="#{user.create.title}">Create User | JobCenter</title>
+
+    <link th:href="@{/webjars/bootstrap/5.3.8/dist/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/bootstrap-icons/1.13.1/font/bootstrap-icons.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div th:insert="~{fragments/general::header}"></div>
+
+<main class="container py-5">
+
+    <div class="form-card">
+
+        <!-- Header -->
+        <div class="d-flex align-items-center gap-4 mb-4 pb-3 border-bottom">
+
+            <div class="page-icon">
+                <i class="bi bi-person-plus-fill"></i>
+            </div>
+
+            <div>
+                <h2 class="fw-bold mb-1" th:text="#{user.create.heading}">
+                    Create User
+                </h2>
+                <p class="text-muted mb-0" th:text="#{user.create.subtitle}">
+                    Add a new user to JobCenter
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Form -->
+        <form th:action="@{/users/save}"
+              th:object="${user}"
+              method="post">
+
+            <div class="row g-4">
+
+                <!-- First Name -->
+                <div class="col-md-6">
+                    <label for="firstName" class="form-label fw-semibold">
+                        <i class="bi bi-person me-2"></i>
+                        <span th:text="#{user.firstName}">First Name</span>
+                    </label>
+
+                    <input type="text"
+                           id="firstName"
+                           class="form-control custom-input"
+                           th:field="*{firstName}"
+                           th:placeholder="#{user.firstName.placeholder}"
+                           required>
+                </div>
+
+                <!-- Last Name -->
+                <div class="col-md-6">
+                    <label for="lastName" class="form-label fw-semibold">
+                        <i class="bi bi-person me-2"></i>
+                        <span th:text="#{user.lastName}">Last Name</span>
+                    </label>
+
+                    <input type="text"
+                           id="lastName"
+                           class="form-control custom-input"
+                           th:field="*{lastName}"
+                           th:placeholder="#{user.lastName.placeholder}"
+                           required>
+                </div>
+
+                <!-- Phone -->
+                <div class="col-md-6">
+                    <label for="phoneNumber" class="form-label fw-semibold">
+                        <i class="bi bi-telephone me-2"></i>
+                        <span th:text="#{user.phoneNumber}">Phone Number</span>
+                    </label>
+
+                    <input type="text"
+                           id="phoneNumber"
+                           class="form-control custom-input"
+                           th:field="*{phoneNumber}"
+                           th:placeholder="#{user.phoneNumber.placeholder}"
+                           required>
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-6">
+                    <label for="email" class="form-label fw-semibold">
+                        <i class="bi bi-envelope me-2"></i>
+                        <span th:text="#{user.email}">Email</span>
+                    </label>
+
+                    <input type="email"
+                           id="email"
+                           class="form-control custom-input"
+                           th:field="*{email}"
+                           th:placeholder="#{user.email.placeholder}"
+                           required>
+                </div>
+
+                <!-- Birth Date -->
+                <div class="col-md-6">
+                    <label for="birthDate" class="form-label fw-semibold">
+                        <i class="bi bi-calendar3 me-2"></i>
+                        <span th:text="#{user.birthDate}">Birth Date</span>
+                    </label>
+
+                    <input type="date"
+                           id="birthDate"
+                           class="form-control custom-input"
+                           th:field="*{birthDate}"
+                           required>
+                </div>
+
+                <!-- Role -->
+                <div class="col-md-6">
+                    <label for="role" class="form-label fw-semibold">
+                        <i class="bi bi-shield-check me-2"></i>
+                        <span th:text="#{user.role}">Role</span>
+                    </label>
+
+                    <select id="role"
+                            class="form-select custom-input"
+                            th:field="*{roles}"
+                            required>
+
+                        <option value="" disabled
+                                th:text="#{user.role.select}">
+                            Select role
+                        </option>
+
+                        <option th:each="role : ${roles}"
+                                th:text="${role.name}"
+                                th:value="${role.id}">
+                        </option>
+
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex gap-2 mt-5 pt-3 border-top">
+
+                <button type="submit" class="btn btn-create">
+                    <i class="bi bi-plus-circle-fill me-2"></i>
+                    <span th:text="#{user.create.button}">Create User</span>
+                </button>
+
+                <a th:href="@{/users}" class="btn btn-cancel">
+                    <i class="bi bi-x-circle me-2"></i>
+                    <span th:text="#{common.cancel}">Cancel</span>
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+<div th:insert="~{fragments/general::footer}"></div>
+
+<script th:src="@{/webjars/bootstrap/5.3.8/dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

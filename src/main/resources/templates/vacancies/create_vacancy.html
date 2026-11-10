@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{vacancy.create.title}">Create Vacancy</title>
+    <link th:href="@{/webjars/bootstrap/5.3.8/dist/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/bootstrap-icons/1.13.1/font/bootstrap-icons.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div th:insert="~{fragments/general::header}"></div>
+
+<main class="container py-5">
+
+    <!-- Page heading -->
+    <div class="d-flex align-items-center gap-3 mb-4">
+        <div class="page-icon">
+            <i class="bi bi-briefcase-fill"></i>
+        </div>
+        <div>
+            <h2 class="fw-bold mb-1" th:text="#{vacancy.create.heading}">
+                Create Vacancy
+            </h2>
+            <p class="text-muted mb-0" th:text="#{vacancy.create.subtitle}">
+                Add a new job position to JobCenter
+            </p>
+        </div>
+    </div>
+
+    <!-- Form -->
+    <div class="content-card">
+        <form th:action="@{/vacancies/save}" th:object="${vacancy}" method="post">
+
+            <div class="row g-4">
+
+                <!-- Title -->
+                <div class="col-md-6">
+                    <label for="titleVacancy" class="form-label fw-semibold">
+                        <i class="bi bi-card-heading me-2 text-primary"></i>
+                        <span th:text="#{vacancy.title}">Vacancy Title</span>
+                    </label>
+                    <input type="text"
+                           class="form-control custom-input"
+                           id="titleVacancy"
+                           th:field="*{title}"
+                           th:placeholder="#{vacancy.title.placeholder}"
+                           required>
+                </div>
+
+                <!-- Salary -->
+                <div class="col-md-6">
+                    <label for="salary" class="form-label fw-semibold">
+                        <i class="bi bi-cash-stack me-2 text-primary"></i>
+                        <span th:text="#{vacancy.salary}">Salary</span>
+                    </label>
+                    <input type="number"
+                           step="0.01"
+                           min="0"
+                           class="form-control custom-input"
+                           id="salary"
+                           th:field="*{salary}"
+                           th:placeholder="#{vacancy.salary.placeholder}"
+                           required>
+                </div>
+
+                <!-- City -->
+                <div class="col-md-6">
+                    <label for="cityVacancy" class="form-label fw-semibold">
+                        <i class="bi bi-geo-alt-fill me-2 text-primary"></i>
+                        <span th:text="#{vacancy.city}">City</span>
+                    </label>
+                    <input type="text"
+                           class="form-control custom-input"
+                           id="cityVacancy"
+                           th:field="*{city}"
+                           th:placeholder="#{vacancy.city.placeholder}"
+                           required>
+                </div>
+
+                <!-- Vacancy type -->
+                <div class="col-md-6">
+                    <label for="vacancyType" class="form-label fw-semibold">
+                        <i class="bi bi-tags-fill me-2 text-primary"></i>
+                        <span th:text="#{vacancy.employmentType}">Employment Type</span>
+                    </label>
+                    <select id="vacancyType"
+                            class="form-select custom-input"
+                            th:field="*{vacancyType}"
+                            required>
+                        <option value="" disabled
+                                th:text="#{vacancy.employmentType.select}">
+                            Select employment type
+                        <option th:each="type : ${types}"
+                                th:value="${type}"
+                                th:text="${type.name}">
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Category -->
+                <div class="col-md-6">
+                    <label for="category" class="form-label fw-semibold">
+                        <i class="bi bi-grid-fill me-2 text-primary"></i>
+                        <span th:text="#{vacancy.category}">Category</span>
+                    </label>
+                    <select id="category"
+                            class="form-select custom-input"
+                            th:field="*{category}"
+                            required>
+                        <option value="" disabled
+                                th:text="#{vacancy.category.select}">
+                            Select category
+                        </option>
+                        <option th:each="category : ${categories}"
+                                th:value="${category.id}"
+                                th:text="${category.name}">
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Company -->
+                <div class="col-md-6">
+                    <label for="company" class="form-label fw-semibold">
+                        <i class="bi bi-buildings-fill me-2 text-primary"></i>
+                        <span th:text="#{vacancy.company}">Company</span>
+                    </label>
+                    <select id="company"
+                            name="company"
+                            class="form-select custom-input"
+                            th:field="*{company}"
+                            required>
+                        <option value="" disabled
+                                th:text="#{vacancy.company.select}">
+                            Select company
+                        <option th:each="company : ${companies}"
+                                th:value="${company.id}"
+                                th:text="${company.name}">
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Description -->
+                <div class="col-12">
+                    <label for="description" class="form-label fw-semibold">
+                        <i class="bi bi-text-paragraph me-2 text-primary"></i>
+                        <span th:text="#{vacancy.description}">Description</span>
+                    </label>
+                    <textarea class="form-control custom-input"
+                              id="description"
+                              th:field="*{description}"
+                              rows="5"
+                              th:placeholder="#{vacancy.description.placeholder}"
+                              required></textarea>
+                </div>
+
+            </div>
+
+            <hr class="my-4">
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-end gap-2 flex-wrap">
+                <a th:href="@{/vacancies}" class="btn btn-cancel">
+                    <i class="bi bi-x-circle me-2"></i>
+                    <span th:text="#{common.cancel}">Cancel</span>
+                </a>
+
+                <button type="submit" class="btn btn-create">
+                    <i class="bi bi-plus-circle-fill me-2"></i>
+                    <span th:text="#{vacancy.create.button}">Create Vacancy</span>
+                </button>
+            </div>
+
+        </form>
+    </div>
+</main>
+
+<div th:insert="~{fragments/general::footer}"></div>
+<script th:src="@{/webjars/bootstrap/5.3.8/dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

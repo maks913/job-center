@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title th:text="#{vacancy.details.title}">Vacancy Details | JobCenter</title>
+
+  <link th:href="@{/webjars/bootstrap/5.3.8/dist/css/bootstrap.min.css}" rel="stylesheet"/>
+  <link th:href="@{/webjars/bootstrap-icons/1.13.1/font/bootstrap-icons.css}" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div th:insert="~{fragments/general::header}"></div>
+
+<main class="container py-5">
+
+  <!-- Page heading -->
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <div class="page-icon">
+      <i class="bi bi-briefcase-fill"></i>
+    </div>
+    <div>
+      <h2 class="fw-bold mb-1" th:text="#{vacancy.details.heading}">Vacancy Details</h2>
+      <p class="text-muted mb-0" th:text="#{vacancy.details.subtitle}">
+        View comprehensive job opening information
+      </p>
+    </div>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- Left Column: Primary Vacancy Specs -->
+    <div class="col-lg-4">
+      <div class="detail-card h-100">
+
+        <div class="detail-card-header">
+          <i class="bi bi-info-circle-fill"></i>
+          <span th:text="#{vacancy.details.summary}">Job Summary</span>
+        </div>
+
+        <div class="text-center py-3">
+          <div class="profile-avatar">
+            <i class="bi bi-briefcase-fill"></i>
+          </div>
+
+          <h4 class="fw-bold mt-3 mb-1" th:text="${vacancy.title}">
+            Software Engineer
+          </h4>
+
+          <span class="badge bg-primary-subtle text-primary">
+            <span th:text="#{vacancy.details.id}">ID:</span>
+            <span th:text="${vacancy.id}">1</span>
+          </span>
+        </div>
+
+        <hr>
+
+        <div class="detail-item">
+          <span>
+            <i class="bi bi-cash me-2"></i>
+            <span th:text="#{vacancy.salary}">Salary</span>
+          </span>
+          <strong class="text-success" th:text="${vacancy.salary}">$50,000</strong>
+        </div>
+
+        <div class="detail-item">
+          <span>
+            <i class="bi bi-geo-alt me-2"></i>
+            <span th:text="#{vacancy.details.location}">Location</span>
+          </span>
+          <strong th:text="${vacancy.city}">New York</strong>
+        </div>
+
+        <div class="detail-item">
+          <span>
+            <i class="bi bi-clock me-2"></i>
+            <span th:text="#{vacancy.employmentType}">Employment Type</span>
+          </span>
+          <strong th:text="${vacancy.vacancyType}">Full Time</strong>
+        </div>
+
+        <div class="detail-item" th:if="${vacancy.company != null}">
+          <span>
+            <i class="bi bi-building me-2"></i>
+            <span th:text="#{vacancy.company}">Company</span>
+          </span>
+          <strong>
+            <a th:href="@{/companies/{id}(id=${vacancy.company.id})}"
+               class="text-decoration-none text-primary"
+               th:text="${vacancy.company.name}">
+              Tech Corp
+            </a>
+          </strong>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Right Column: Full Description -->
+    <div class="col-lg-8">
+      <div class="detail-card h-100 d-flex flex-column justify-content-between">
+
+        <div>
+          <div class="detail-card-header">
+            <i class="bi bi-file-text-fill"></i>
+            <span th:text="#{vacancy.details.descriptionRequirements}">
+              Description & Requirements
+            </span>
+          </div>
+
+          <div class="py-2">
+            <h5 class="fw-semibold mb-3" th:text="#{vacancy.details.aboutRole}">
+              About the Role
+            </h5>
+            <p class="text-secondary lh-lg mb-0"
+               style="white-space: pre-line;"
+               th:text="${vacancy.description}">
+              Detailed description of the vacancy responsibility and candidate requirements...
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Back button -->
+  <div class="mt-4">
+    <a th:href="@{/vacancies}" class="btn btn-cancel">
+      <i class="bi bi-arrow-left me-2"></i>
+      <span th:text="#{vacancy.details.back}">Back to Vacancies</span>
+    </a>
+  </div>
+
+</main>
+
+<div th:insert="~{fragments/general::footer}"></div>
+<script th:src="@{/webjars/bootstrap/5.3.8/dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
